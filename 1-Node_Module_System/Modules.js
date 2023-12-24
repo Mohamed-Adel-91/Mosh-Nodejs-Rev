@@ -11,4 +11,20 @@ window.sayHello();
 and that not available outside of that file until you export it
 */
 
+// we have built in modules in node js we will find it in this link :  https://nodejs.org/dist/latest-v20.x/docs/api/
+// the most important module in node js is :
+/*
+- Buffer 
+- File system : handling fs
+- HTTP : create web server
+- Query strings : useful with building http services
+- Stream : its allow us to work with stream of data
+- OS : operating system
+- Path : function to work with path
+- Process : that give us information about current  process
+- Errors
+- Events
+- DNS
+*/
+
 console.log(module);
