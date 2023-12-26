@@ -1,15 +1,14 @@
 {
-  "name": "2-npm",
+  "name": "3-restfulapi-express",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^8.0.3", 
-    "underscore": "^1.13.6"
+    "express": "^4.18.2"
   }
 }
