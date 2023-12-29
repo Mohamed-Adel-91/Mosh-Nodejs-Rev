@@ -10,6 +10,14 @@ const courses = [
     { id: 3, name: "Course 3" },
 ];
 
+// refactoring validation function
+function validateCourses(course) {
+    const schema = Joi.object({
+        name: Joi.string().min(5).required(),
+    });
+    return Joi.validate(course, schema);
+}
+
 //********************** Get Request **************************** /
 app.get("/", (req, res) => {
     res.send("Hello World!");
@@ -28,25 +36,14 @@ app.get("/api/courses/:id", (req, res) => {
     res.send(`your course is : ${course.name}`);
 });
 
-app.get("/api/posts/:year/:month", (req, res) => {
-    res.send(req.params);
-});
-
-//  /api/query/:year/:month?sortBy=name
-app.get("/api/query/:year/:month", (req, res) => {
-    res.send(req.query);
-});
-
 //********************** Post Request **************************** /
 app.post("/api/courses", (req, res) => {
-    const schema = Joi.object({
-        name: Joi.string().min(5).required(),
-    });
-    const result = Joi.validate(req.body, schema);
-
-    if (result.error) {
+    // Validate
+    const { error } = validateCourses(req.body);
+    // If invalid, return 404 , Bad request
+    if (error) {
         // bad request
-        res.status(400).send(result.error.details[0].message);
+        res.status(400).send(error.details[0].message);
         return;
     }
     const course = {
@@ -68,14 +65,11 @@ app.put("/api/courses/:id", (req, res) => {
             .send("The course with the given ID was not found.");
 
     // Validate
-    const schema = Joi.object({
-        name: Joi.string().min(5).required(),
-    });
-    const result = Joi.validate(req.body, schema);
+    const { error } = validateCourses(req.body);
     // If invalid, return 404 , Bad request
-    if (result.error) {
+    if (error) {
         // bad request
-        res.status(400).send(result.error.details[0].message);
+        res.status(400).send(error.details[0].message);
         return;
     }
 
