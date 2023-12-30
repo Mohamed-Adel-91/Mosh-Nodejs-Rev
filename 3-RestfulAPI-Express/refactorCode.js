@@ -69,12 +69,28 @@ app.put("/api/courses/:id", (req, res) => {
     // If invalid, return 404 , Bad request
     if (error) {
         // bad request
-        res.status(400).send(error.details[0].message);
-        return;
+        return res.status(400).send(error.details[0].message);
     }
 
     // Update Course
     course.name = req.body.name;
+    // Return the update course
+    res.send(course);
+});
+
+//**************************** Delete Request ******************/
+app.delete("/api/courses/:id", (req, res) => {
+    //Lookup the course.
+    const course = courses.find((c) => c.id === parseInt(req.params.id));
+    //If not existing, return 404
+    if (!course)
+        return res
+            .status(404)
+            .send("The course with the given ID was not found.");
+
+    // Delete Course
+    const index = courses.indexOf(course);
+    courses.splice(index, 1);
     // Return the update course
     res.send(course);
 });
