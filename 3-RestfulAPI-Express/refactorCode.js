@@ -46,11 +46,14 @@ app.post("/api/courses", (req, res) => {
         res.status(400).send(error.details[0].message);
         return;
     }
+    // Add data from body to array and add +1 in id
     const course = {
         id: courses.length + 1,
         name: req.body.name,
     };
+    // push it in array
     courses.push(course);
+    // send data
     res.send(courses);
 });
 
