@@ -6,6 +6,8 @@ const Joi = require("joi");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const config = require("config");
+const startupDebugger = require("debug")("app:startup");
+const dbDebugger = require("debug")("app:db");
 const logger = require("./middleware/logger");
 const Authentication = require("./middleware/auth");
 
@@ -22,8 +24,9 @@ console.log(`NODE_ENV : ${process.env.NODE_ENV}`);
 console.log(`app : ${app.get("env")}`);
 if (app.get("env") === "development") {
     app.use(morgan("tiny"));
-    console.log("morgan Enabled ....!");
+    startupDebugger("morgan Enabled ....!");
 }
+dbDebugger("Connected to the database ....!");
 
 // configuration
 console.log("Application name : " + config.get("name"));
@@ -46,7 +49,7 @@ function validateCourses(course) {
 
 //********************** Get Request **************************** /
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+    res.send(`Server Listening on Port ${port} , Hello World!`);
 });
 
 app.get("/api/courses", (req, res) => {
