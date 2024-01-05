@@ -1,0 +1,3 @@
+middleware function :
+
+-   it's a function that takes a request object and either returns a response to client or passes control to another middleware function
