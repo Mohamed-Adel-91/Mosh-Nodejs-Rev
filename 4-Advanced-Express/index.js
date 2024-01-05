@@ -5,6 +5,7 @@ const cors = require("cors");
 const Joi = require("joi");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const config = require("config");
 const logger = require("./middleware/logger");
 const Authentication = require("./middleware/auth");
 
@@ -12,12 +13,22 @@ app.use(express.json()); //req.body
 app.use(express.urlencoded({ extended: true })); //key=value&key=value
 app.use(express.static("public"));
 app.use(helmet());
-app.use(morgan("tiny"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(cors({ optionsSuccessStatus: 200 })); // enable C
 
 app.use(logger);
 app.use(Authentication);
+console.log(`NODE_ENV : ${process.env.NODE_ENV}`);
+console.log(`app : ${app.get("env")}`);
+if (app.get("env") === "development") {
+    app.use(morgan("tiny"));
+    console.log("morgan Enabled ....!");
+}
+
+// configuration
+console.log("Application name : " + config.get("name"));
+console.log("Mail server : " + config.get("mail.host"));
+console.log("Mail password : " + config.get("mail.password"));
 
 const courses = [
     { id: 1, name: "Course 1" },
