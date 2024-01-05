@@ -11,6 +11,9 @@ const dbDebugger = require("debug")("app:db");
 const logger = require("./middleware/logger");
 const Authentication = require("./middleware/auth");
 
+app.set("view engine", "pug");
+app.set("views", "./views");
+
 app.use(express.json()); //req.body
 app.use(express.urlencoded({ extended: true })); //key=value&key=value
 app.use(express.static("public"));
@@ -49,7 +52,10 @@ function validateCourses(course) {
 
 //********************** Get Request **************************** /
 app.get("/", (req, res) => {
-    res.send(`Server Listening on Port ${port} , Hello World!`);
+    res.render("index", {
+        title: "My Express App",
+        message: `Server Listening on Port ${port} , Hello World!`,
+    });
 });
 
 app.get("/api/courses", (req, res) => {
