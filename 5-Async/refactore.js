@@ -1,11 +1,24 @@
 console.log("before");
 
+// this is callback function hell >> nested function or it called christmas tree function
 getUser(1, (user) => {
     console.log(user);
     getRepo(user.githubUserName, (repo) => {
         console.log(`${user.githubUserName} is working on ${repo}`);
+        getCommit(repo[0], (commit) => {
+            console.log(
+                `The last commit was made by @${user.githubUserName} and its ${commit}`
+            );
+        });
     });
 });
+
+// we can handel it in flat beauty code with promises
+getUser(1)
+    .then((user) => getRepo(user.githubUserName))
+    .then((repo) => getCommit(repo[0]))
+    .then((commits) => console.log("commits", commits))
+    .catch((err) => new Error(err.message));
 
 console.log("after");
 
