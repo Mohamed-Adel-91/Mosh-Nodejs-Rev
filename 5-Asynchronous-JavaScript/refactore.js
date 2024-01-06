@@ -20,6 +20,19 @@ getUser(1)
     .then((commits) => console.log("commits", commits))
     .catch((err) => new Error(err.message));
 
+// we can handel this promise using async and await approach
+async function displayCommits() {
+    try {
+        const user = await getUser(1);
+        const repo = await getRepo(user.githubUserName);
+        const commit = await getCommit(repo[0]);
+        console.log(commit);
+    } catch {
+        console.error(err.message);
+    }
+}
+displayCommits();
+
 console.log("after");
 
 function getUser(id) {
