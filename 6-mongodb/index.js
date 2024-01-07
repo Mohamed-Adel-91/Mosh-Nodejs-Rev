@@ -33,7 +33,19 @@ async function createCourse() {
 
 // Query Document and how to get and filter something in course document
 async function getCourses() {
+    // filtering in mongodb > comparison query operation
+    // eq >> Equal
+    // ne >> not Equal
+    // gt >> Greater than
+    // gte >> greater Than or Equal to
+    // lt >> less than
+    // lte >> Less Than or Equal to
+    // in
+    // nin >> Not In
     const courses = await Course.find({
+        // we can use them like this in .find
+        price: { $gt: 10, $lt: 20 },
+        tags: { $in: ["react.js", "Node.js", "Angular"] },
         author: "Mike Williams",
         isPublished: true,
     })
