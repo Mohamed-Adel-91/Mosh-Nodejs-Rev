@@ -18,17 +18,28 @@ const courseSchema = new mongoose.Schema({
     isPublished: Boolean,
 });
 
+const Course = mongoose.model("course", courseSchema);
 // create model
 async function createCourse() {
-    const Course = mongoose.model("course", courseSchema);
     const course = new Course({
         name: "Building React Applications",
         author: "Mike Williams",
         tags: ["react.js", "javascript"],
         isPublished: true,
     });
-
     const result = await course.save();
     startupDebugger(result);
 }
-createCourse();
+
+// Query Document and how to get and filter something in course document
+async function getCourses() {
+    const courses = await Course.find({
+        author: "Mike Williams",
+        isPublished: true,
+    })
+        .limit(10)
+        .sort({ date: -1 }) // sort by date descending
+        .select({ name: 1, author: 1, tags: 1 });
+    dbDebugger(courses);
+}
+getCourses();
