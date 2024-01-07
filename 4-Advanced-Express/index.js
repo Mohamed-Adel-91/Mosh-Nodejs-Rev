@@ -34,6 +34,7 @@ if (app.get("env") === "development") {
     startupDebugger("morgan Enabled ....!");
 }
 dbDebugger("Connected to the database ....!");
+// when we run the code we must add >> $env:DEBUG="app:*" in the terminal to show the result of debugging
 
 // configuration
 console.log("Application name : " + config.get("name"));
