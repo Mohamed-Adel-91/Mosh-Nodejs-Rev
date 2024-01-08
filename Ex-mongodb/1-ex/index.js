@@ -22,6 +22,9 @@ const Course = mongoose.model("courses", courseSchema);
 
 // get some data
 async function getCourse() {
-    const course = await Course.find;
+    const course = await Course.find({ tags: "backend", isPublished: true })
+        .sort({ name: 1 })
+        .select({ name: 1, author: 1 });
     dbDebugger(course);
 }
+getCourse();
