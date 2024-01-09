@@ -21,10 +21,15 @@ const courseSchema = new mongoose.Schema({
 const Course = mongoose.model("courses", courseSchema);
 
 // get some data
-async function getCourse() {
-    const course = await Course.find({ tags: "backend", isPublished: true })
-        .sort({ name: 1 })
-        .select({ name: 1, author: 1 });
-    dbDebugger(course);
+async function getCourses() {
+    return await Course.find({ isPublished: true })
+        .or([{ price: { $gte: 15 } }, { name: /.*by.*/i }])
+        .sort("-price")
+        .select("name author price");
 }
-getCourse();
+async function run() {
+    const courses = await getCourses();
+    dbDebugger(courses);
+}
+
+run().catch((err) => console.log(err));
