@@ -18,6 +18,9 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
+        lowercase: true,
+        // uppercase: true,
+        trim: true,
         enum: ["Web development", "Data base", "Graphic design"], // it means the category we have set must be in this values
     },
     author: String,
@@ -43,6 +46,8 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         min: 10,
         max: 50, // min & max only for numbers and dates
+        get: (value) => Math.round(value), //called when you read the value of priority from 15.8 > 16
+        set: (value) => Math.round(value), // called when you setting the value of priority from 15.8 > 16
         required: function () {
             return this.isPublished; //return true if published else false
         },
