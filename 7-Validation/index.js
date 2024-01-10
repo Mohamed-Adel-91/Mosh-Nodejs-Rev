@@ -8,12 +8,30 @@ mongoose
 
 // create schema
 const courseSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    name: {
+        type: String,
+        required: true,
+        minLength: 5,
+        maxLength: 255,
+        match: /.*js.*/, //this mean it must have js in the name of the course
+    },
+    category: {
+        type: String,
+        required: true,
+        enum: ["Web development", "Data base", "Graphic design"], // it means the category we have set must be in this values
+    },
     author: String,
     tags: [String],
     date: { type: Date, default: Date.now },
     isPublished: Boolean,
-    price: Number,
+    price: {
+        type: Number,
+        min: 10,
+        max: 50, // min & max only for numbers and dates
+        required: function () {
+            return this.isPublished; //return true if published else false
+        },
+    },
 });
 
 // create model
@@ -23,6 +41,7 @@ const Course = mongoose.model("courses", courseSchema);
 async function createCourse() {
     const course = new Course({
         name: "Node js",
+        category: "Web development",
         author: "Mosh Hamadani",
         tags: ["node.js", "express.js", "javascript"],
         isPublished: true,
