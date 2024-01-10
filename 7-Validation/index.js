@@ -25,15 +25,14 @@ const courseSchema = new mongoose.Schema({
         type: Array,
         validate: {
             isAsync: true,
-            validator: function (value, callback) {
-                setTimeout(() => {
-                    //Do some thing async work
-                    // if (!["framework", "library"].includes(value[0])) {
-                    //     console.log("Do some thing");
-                    // }
-                    const result = value && value.length > 0;
-                    callback(result);
-                }, 1000);
+            validator: async function (value) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        // Do some asynchronous work
+                        const result = value && value.length > 0;
+                        resolve(result);
+                    }, 1000);
+                });
             },
             message: "A course should be have at least one tag.",
         },
@@ -70,9 +69,9 @@ async function createCourse() {
         //     }
         // });
         const isValidate = await course.validate();
-        if (!isValidate) {
-            console.log("Do some thing to solve the problem");
-        }
+        // if (!isValidate) {
+        //     console.log("Do some thing to solve the problem");
+        // }
         const result = await course.save();
         console.log(result);
     } catch (error) {
