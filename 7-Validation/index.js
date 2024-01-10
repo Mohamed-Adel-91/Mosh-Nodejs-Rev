@@ -21,7 +21,15 @@ const courseSchema = new mongoose.Schema({
         enum: ["Web development", "Data base", "Graphic design"], // it means the category we have set must be in this values
     },
     author: String,
-    tags: [String],
+    tags: {
+        type: Array,
+        validate: {
+            validator: function (value) {
+                return value && value.length > 0;
+            },
+            message: "A course should be have at least one tag.",
+        },
+    },
     date: { type: Date, default: Date.now },
     isPublished: Boolean,
     price: {
